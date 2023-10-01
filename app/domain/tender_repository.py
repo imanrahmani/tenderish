@@ -2,7 +2,7 @@ import abc
 from typing import List
 
 from app.domain.tender import Tender
-
+#comment
 
 class TenderRepository(metaclass=abc.ABCMeta):
     @abc.abstractmethod
