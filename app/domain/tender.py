@@ -13,8 +13,8 @@ class ExternalRef(BaseModel):
 class Tender(BaseModel):
     tender_id: str
     customer: ExternalRef
-    product: ExternalRef
-    bidders: List(ExternalRef)
+    #product: ExternalRef
+   # bidders: List(ExternalRef)
 
     def save(self, tender_repository: 'TenderRepository'):
         return tender_repository.add(self)
