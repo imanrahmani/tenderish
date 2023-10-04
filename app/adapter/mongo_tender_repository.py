@@ -7,7 +7,7 @@ from app.domain.tender_repository import TenderRepository
 class MongoTenderRepository(TenderRepository):
     def __init__(self):
         self.tenders = []
-        #client = MongoClient("mongodb+srv://iman:ZDM5s2h7dBjnBd@cluster0.aebu2mj.mongodb.net/?retryWrites=true&w=majority")
+        
         client = MongoClient("mongodb://127.0.0.1:27017/")
         self.db = client.tenderish
 
