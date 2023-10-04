@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 
 if TYPE_CHECKING:
@@ -12,9 +12,9 @@ class ExternalRef(BaseModel):
 
 class Tender(BaseModel):
     tender_id: str
-    customer: ExternalRef
-   # product: ExternalRef
-   # bidders: List(ExternalRef)
+    customer: ExternalRef = Field(default= None)
+    product: ExternalRef = Field(default= None)
+    bidders: List[ExternalRef] = Field(default=[])
 
     def save(self, tender_repository: 'TenderRepository'):
         return tender_repository.add(self)
