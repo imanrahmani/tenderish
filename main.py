@@ -1,18 +1,20 @@
+from fastapi import FastAPI
 from app.adapter.mongo_tender_repository import MongoTenderRepository
 from app.domain.tender import Tender
 
+app = FastAPI()
+tender_repository = MongoTenderRepository()
 
-def main():
-    tender_repository = MongoTenderRepository()
+@app.get("/")
+async def root():
+    return {"message": "Tenderish"}
 
-    Tender(tender_id= '123', customer= {"id": "123", "name":'Rahmani'}).save(tender_repository)
-    
-
+@app.get("/tenders/")
+async def get_tenders():
     rows = tender_repository.all()
-    for doc in rows:
-        print(doc)
-    print(f'Total votes: {tender_repository.total()}')
+    return rows
 
-
-if __name__ == '__main__':
-    main()
+@app.post("/tenders/")
+async def post_tenders(tender: Tender):
+    rows = tender_repository.add(tender)
+    return rows
