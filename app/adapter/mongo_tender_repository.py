@@ -5,20 +5,26 @@ from app.domain.tender import Tender
 from app.domain.tender_repository import TenderRepository
 
 class MongoTenderRepository(TenderRepository):
-    def __init__(self):
-        self.tenders = []
-        
-        client = MongoClient("mongodb://127.0.0.1:27017/")
-        self.db = client.tenderish
+    def __init__(self, mongo_uri: str = "mongodb://127.0.0.1:27017/"):
+        self.client = MongoClient(mongo_uri)
+        self.db = self.client.tenderish
+        self.collection = self.db.tenders
 
     def add(self, tender: Tender) -> Tender:
-        result = self.db.tenders.insert_one(tender.model_dump())
-        return result
+        result = self.collection.insert_one(tender.model_dump())
+        return tender
 
     def all(self) -> List[Tender]:
-        result = self.db.tenders.find()
-        return result
+        results = self.collection.find()
+        tenders_list: List[Tender] = []
+
+        for document in results:
+            tender = Tender(**document)
+            tenders_list.append(tender)
+
+        return tenders_list
+
 
     def total(self) -> int:
-        result = self.db.tenders.count_documents(filter={})
+        result = self.collection.count_documents(filter={})
         return result
