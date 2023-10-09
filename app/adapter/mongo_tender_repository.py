@@ -16,9 +16,7 @@ class MongoTenderRepository(TenderRepository):
 
     def all(self) -> List[Tender]:
         results = self.collection.find()
-        #tenders = [Tender.model_construct(doc) for doc in results]
         tenders_list: List[Tender] = []
-
 
         for document in results:
             tender = Tender(**document)
